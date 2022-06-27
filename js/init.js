@@ -15,6 +15,7 @@
 	 }, 100);
 
 
+
 /*----------------------------------------------------*/
 /* Smooth Scrolling
 ------------------------------------------------------ */
@@ -77,11 +78,23 @@
 /*	Fade In/Out Primary Navigation
 ------------------------------------------------------*/
 
+   const toTop = document.querySelector("#go-top-main");
+
+   window.addEventListener("scroll", () => {
+   if (window.pageYOffset > 400 && (window.pageYOffset + window.innerHeight + 400 <= document.body.scrollHeight) ) {
+      toTop.classList.add("active");
+   } else {
+      toTop.classList.remove("active");
+   }
+   })
+
    $(window).on('scroll', function() {
 
 		var h = $('header').height();
 		var y = $(window).scrollTop();
       var nav = $('#nav-wrap');
+
+     
 
 	   if ( (y > h*.20) && (y < h) && ($(window).outerWidth() > 768 ) ) {
 	      nav.fadeOut('fast');
@@ -133,48 +146,6 @@
       randomize: false,
    });
 
-/*----------------------------------------------------*/
-/*	contact form
-------------------------------------------------------*/
-
-   $('form#contactForm button.submit').click(function() {
-
-      $('#image-loader').fadeIn();
-
-      var contactName = $('#contactForm #contactName').val();
-      var contactEmail = $('#contactForm #contactEmail').val();
-      var contactSubject = $('#contactForm #contactSubject').val();
-      var contactMessage = $('#contactForm #contactMessage').val();
-
-      var data = 'contactName=' + contactName + '&contactEmail=' + contactEmail +
-               '&contactSubject=' + contactSubject + '&contactMessage=' + contactMessage;
-
-      $.ajax({
-
-	      type: "POST",
-	      url: "inc/sendEmail.php",
-	      data: data,
-	      success: function(msg) {
-
-            // Message was sent
-            if (msg == 'OK') {
-               $('#image-loader').fadeOut();
-               $('#message-warning').hide();
-               $('#contactForm').fadeOut();
-               $('#message-success').fadeIn();   
-            }
-            // There was an error
-            else {
-               $('#image-loader').fadeOut();
-               $('#message-warning').html(msg);
-	            $('#message-warning').fadeIn();
-            }
-
-	      }
-
-      });
-      return false;
-   });
 
 
 });
